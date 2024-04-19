@@ -8,11 +8,11 @@ def extiende_clave_ciclicamente(clave_num, long_msj):
     clave_extendida = ""
 
     while not stop:
-        resto = long_msj - clave_extendida.length
+        resto = long_msj - len(clave_extendida)
 
         if clave_num.length == long_msj:
             stop = True
-        elif resto < clave_num.length:
+        elif resto < len(clave_num):
             clave_extendida += clave_num[0:resto - 1]
         else:
             clave_extendida += clave_num
@@ -29,7 +29,8 @@ def genera_vector(cadena, alfabeto):
         if c in lista:
             vector.append(lista.index(c))
 
-    return vector
+    return calculo_modular(vector, alfabeto)
+
 
 def genera_cadena(vector, alfabeto):
     # Genera una cadena en base a las posiciones en el alfabeto de almacenadas en el vector.
@@ -40,10 +41,21 @@ def genera_cadena(vector, alfabeto):
 
     return cadena
 
+
+def calculo_modular(vector_decimal, alfabeto):
+    # Convierte los valores de un vector al módulo correspondiente en base a la longitud del formulario
+    # @return vector modular, pero en formato array de la librería numpy
+    modulo = len(alfabeto)
+    array = np.array(vector_decimal)
+    vector_modular = array % modulo
+
+    return vector_modular
+
+
 # Función que suma las los vectores
 
 
 # FLUJO PRINCIPAL DEL PROGRAMA
-genera_vector("abecemon", "abcdefghijklmno")
+# genera_vector("abecemon", "abcdefghijklmno")
 genera_cadena([1, 2, 3, 4, 5, 6], "abcdefghijklmno")
-
+calculo_modular([30, 60, 125], "abcdefghijklmno")
