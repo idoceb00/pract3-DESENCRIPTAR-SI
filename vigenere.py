@@ -24,8 +24,13 @@ def extiende_clave_flujo(vector_no_extendido, long_msj):
 
     for i in range(len(extiende_vector) - 1, long_msj):
         x = 0
-        for n in vector_no_extendido:
-            pass
+        for j, n in enumerate(vector_no_extendido):
+            x += n * extiende_vector[(len(extiende_vector) - 1) - j]
+
+        extiende_vector.append(x)
+
+    print(vector_no_extendido)
+    print(extiende_vector)
 
 
 def genera_vector(cadena, alfabeto):
@@ -60,6 +65,7 @@ def calculo_modular_descifrado(vector_msj, vector_clave, alfabeto):
     return vector_modular
 
 
+'''
 # FLUJO PRINCIPAL DEL PROGRAMA
 alfabeto = input("Introduce el alfabeto: ").replace('"', "")
 clave = input("Introduce la clave: ").replace('"', "")
@@ -73,3 +79,6 @@ msj_descifrado = genera_cadena(vector_descifrado, alfabeto)
 
 print("\nMENSAJE DESCIFRADO: \n")
 print(msj_descifrado)
+'''
+
+extiende_clave_flujo([1, 2, 3, 4], 8)
