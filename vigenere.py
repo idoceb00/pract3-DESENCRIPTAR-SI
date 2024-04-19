@@ -4,16 +4,15 @@ import numpy as np
 def extiende_clave_ciclicamente(clave_num, long_msj):
     # Crea la clave extendida en base a la longitud del mensaje, ciclicamenete
 
-    stop = False
+    stop = True
     extiende_clave = ""
 
-    while not stop:
+    while stop:
         resto = long_msj - len(extiende_clave)
-
-        if len(extiende_clave) == long_msj:
-            stop = True
+        if resto == 0:
+            stop = False
         elif resto < len(extiende_clave):
-            extiende_clave += clave_num[0:resto - 1]
+            extiende_clave += clave_num[0:resto]
         else:
             extiende_clave += clave_num
 
@@ -56,9 +55,10 @@ def calculo_modular(vector_decimal, alfabeto):
 
 
 # FLUJO PRINCIPAL DEL PROGRAMA
-alfabeto = input("Introduce el alfabeto: ").replace('"', "")
-clave = input("Introduce la clave: ").replace('"', "")
-msj_cifrado = input("Introduce el msj cifrado: ").replace('"', "")
+alfabeto = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ0123456789 ,.:!-¿?()"
+clave = "UCBxHcl!6jñydiFoMB!vol!:da"
+msj_cifrado = "cCTñScE((ÚHGfiXfúPhmqzgi:uÍCrzVtCc vHC:lJfMHovhb4xAi3VFKxfsp AGyv(YsáSWvHb¿iopÁKDxKcD5ÉnGofpJGÁP5mfA(lr ÁCrIhis¿6)o-vpHoCFnmAFs3veÍEJIRcd4pneGjCFzCrgKrz4kxeLGMñHiF!ÉñySBmvrPT?zfFh3ñuáCSñLnop6mCo:oFqTB4KICj3oá3sCxPqbñbuñLgwvzMr?DHE!gfiUsN!Z.njeCñp:(X8WP4CoJ4ñpaLEPOYkohgneKdBJAjUcxod43: Sk8mr:bB6AIIl(7JóBevAs53NiÚVPño,-35"
+
 
 clave_extendida = extiende_clave_ciclicamente(clave, len(msj_cifrado))
 
