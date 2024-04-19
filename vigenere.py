@@ -24,7 +24,7 @@ def extiende_clave_flujo(vector_no_extendido, long_msj):
 
     extiende_vector = [n for n in vector_no_extendido]
 
-    for i in range(len(extiende_vector) - 1, long_msj):
+    for i in range(len(extiende_vector), long_msj):
         x = 0
         for j, n in enumerate(vector_no_extendido):
             x += n * extiende_vector[(len(extiende_vector) - 1) - j]
