@@ -20,7 +20,9 @@ def extiende_clave_ciclicamente(clave_no_extendida, long_msj):
 
 
 def extiende_clave_flujo(vector_no_extendido, long_msj):
-    extiende_vector = vector_no_extendido
+    # Crea la clave extendida con la versión de flujo, en base a la longitud del mensaje
+
+    extiende_vector = [n for n in vector_no_extendido]
 
     for i in range(len(extiende_vector) - 1, long_msj):
         x = 0
@@ -29,8 +31,7 @@ def extiende_clave_flujo(vector_no_extendido, long_msj):
 
         extiende_vector.append(x)
 
-    print(vector_no_extendido)
-    print(extiende_vector)
+    return extiende_vector
 
 
 def genera_vector(cadena, alfabeto):
@@ -65,20 +66,23 @@ def calculo_modular_descifrado(vector_msj, vector_clave, alfabeto):
     return vector_modular
 
 
-'''
 # FLUJO PRINCIPAL DEL PROGRAMA
 alfabeto = input("Introduce el alfabeto: ").replace('"', "")
 clave = input("Introduce la clave: ").replace('"', "")
 msj_cifrado = input("Introduce el mensaje cifrado: ").replace('"', "")
 
+if input("Introduce el tipo de clave cifrado: ").lower() == "(k_1)":
 
-clave_extendida = extiende_clave_ciclicamente(clave, len(msj_cifrado))
-vector_descifrado = calculo_modular_descifrado(genera_vector(msj_cifrado, alfabeto), genera_vector(clave_extendida, alfabeto), alfabeto)
+    clave_extendida = extiende_clave_ciclicamente(clave, len(msj_cifrado))
+    vector_descifrado = calculo_modular_descifrado(genera_vector(msj_cifrado, alfabeto), genera_vector(clave_extendida, alfabeto), alfabeto)
 
-msj_descifrado = genera_cadena(vector_descifrado, alfabeto)
+    msj_descifrado = genera_cadena(vector_descifrado, alfabeto)
+else:
+    clave_extendida_vector = extiende_clave_flujo(genera_vector(clave, alfabeto), len(msj_cifrado))
+    vector_descifrado = calculo_modular_descifrado(genera_vector(msj_cifrado, alfabeto), clave_extendida_vector, alfabeto)
+
+    msj_descifrado = genera_cadena(vector_descifrado, alfabeto)
 
 print("\nMENSAJE DESCIFRADO: \n")
 print(msj_descifrado)
-'''
 
-extiende_clave_flujo([1, 2, 3, 4], 8)
