@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def extiende_clave_ciclicamente(clave_num, long_msj):
+def extiende_clave_ciclicamente(clave, long_msj):
     # Crea la clave extendida en base a la longitud del mensaje, ciclicamenete
 
     stop = True
@@ -12,11 +12,15 @@ def extiende_clave_ciclicamente(clave_num, long_msj):
         if resto == 0:
             stop = False
         elif resto < len(extiende_clave):
-            extiende_clave += clave_num[0:resto]
+            extiende_clave += clave[0:resto]
         else:
-            extiende_clave += clave_num
+            extiende_clave += clave
 
     return extiende_clave
+
+
+def extiende_clave_flujo(vector_pos_no_extendido, long_msj):
+    msj = 0
 
 
 def genera_vector(cadena, alfabeto):
@@ -28,7 +32,7 @@ def genera_vector(cadena, alfabeto):
         if c in lista:
             vector.append(lista.index(c))
 
-    return calculo_modular(vector, alfabeto)
+    return np.array(vector)
 
 
 def genera_cadena(vector, alfabeto):
@@ -41,11 +45,11 @@ def genera_cadena(vector, alfabeto):
     return cadena.replace("  ", "\n")
 
 
-def calculo_modular(vector_decimal, alfabeto):
+def calculo_modular(vector_msj, vector_clave, alfabeto):
     # Convierte los valores de un vector al módulo correspondiente en base a la longitud del formulario
-    # @return vector modular, pero en formato array de la librería numpy
+    # @return vector modular, pero en formato array de la librería numpy. Y realiza la operación para descifrar
     modulo = len(alfabeto)
-    array = np.array(vector_decimal)
+    array = np.array(vector_msj - vector_clave)
     vector_modular = array % modulo
 
     return vector_modular
@@ -58,11 +62,7 @@ msj_cifrado = input("Introduce el mensaje cifrado: ").replace('"', "")
 
 
 clave_extendida = extiende_clave_ciclicamente(clave, len(msj_cifrado))
-
-vector_msj = genera_vector(msj_cifrado, alfabeto)
-vector_clave = genera_vector(clave_extendida, alfabeto)
-vector_descifrado = vector_msj - vector_clave
-
+vector_descifrado = calculo_modular(genera_vector(msj_cifrado, alfabeto), genera_vector(clave_extendida, alfabeto), alfabeto)
 
 msj_descifrado = genera_cadena(vector_descifrado, alfabeto)
 
