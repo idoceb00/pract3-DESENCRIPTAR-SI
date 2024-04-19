@@ -5,19 +5,19 @@ def extiende_clave_ciclicamente(clave_num, long_msj):
     # Crea la clave extendida en base a la longitud del mensaje, ciclicamenete
 
     stop = False
-    clave_extendida = ""
+    extiende_clave = ""
 
     while not stop:
-        resto = long_msj - len(clave_extendida)
+        resto = long_msj - len(extiende_clave)
 
-        if clave_num.length == long_msj:
+        if len(extiende_clave) == long_msj:
             stop = True
-        elif resto < len(clave_num):
-            clave_extendida += clave_num[0:resto - 1]
+        elif resto < len(extiende_clave):
+            extiende_clave += clave_num[0:resto - 1]
         else:
-            clave_extendida += clave_num
+            extiende_clave += clave_num
 
-    return clave_extendida
+    return extiende_clave
 
 
 def genera_vector(cadena, alfabeto):
@@ -39,7 +39,7 @@ def genera_cadena(vector, alfabeto):
     for n in vector:
         cadena += alfabeto[n]
 
-    return cadena
+    return cadena.replace("  ", "\n")
 
 
 def calculo_modular(vector_decimal, alfabeto):
@@ -56,6 +56,15 @@ def calculo_modular(vector_decimal, alfabeto):
 
 
 # FLUJO PRINCIPAL DEL PROGRAMA
-# genera_vector("abecemon", "abcdefghijklmno")
-genera_cadena([1, 2, 3, 4, 5, 6], "abcdefghijklmno")
-calculo_modular([30, 60, 125], "abcdefghijklmno")
+alfabeto = input("Introduce el alfabeto: ").replace('"', "")
+clave = input("Introduce la clave: ").replace('"', "")
+msj_cifrado = input("Introduce el msj cifrado: ").replace('"', "")
+
+clave_extendida = extiende_clave_ciclicamente(clave, len(msj_cifrado))
+
+vector_msj = genera_vector(msj_cifrado, alfabeto)
+vector_clave = genera_vector(clave_extendida, alfabeto)
+vector_descifrado = vector_msj - vector_clave
+
+msj_descifrado = genera_cadena(vector_descifrado, alfabeto)
+print(msj_descifrado)
