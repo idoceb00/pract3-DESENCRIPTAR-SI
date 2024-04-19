@@ -21,7 +21,7 @@ def extiende_clave_ciclicamente(clave_num, long_msj):
 
 
 def genera_vector(cadena, alfabeto):
-    # Crea el vector númerico en base a las posiciones en el alfabeto de de cada uno de los caracteres de la cadena
+    # Crea el vector númerico en base a las posiciones en el alfabeto de cada uno de los caracteres de la cadena
     lista = list(alfabeto)
     vector = []
 
@@ -31,8 +31,19 @@ def genera_vector(cadena, alfabeto):
 
     return vector
 
+def genera_cadena(vector, alfabeto):
+    # Genera una cadena en base a las posiciones en el alfabeto de almacenadas en el vector.
+    cadena = ""
+
+    for n in vector:
+        cadena += alfabeto[n]
+
+    return cadena
+
+# Función que suma las los vectores
+
 
 # FLUJO PRINCIPAL DEL PROGRAMA
 genera_vector("abecemon", "abcdefghijklmno")
-
+genera_cadena([1, 2, 3, 4, 5, 6], "abcdefghijklmno")
 
