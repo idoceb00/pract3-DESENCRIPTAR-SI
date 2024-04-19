@@ -51,13 +51,10 @@ def calculo_modular(vector_decimal, alfabeto):
     return vector_modular
 
 
-# Función que suma las los vectores
-
-
 # FLUJO PRINCIPAL DEL PROGRAMA
-alfabeto = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ0123456789 ,.:!-¿?()"
-clave = "UCBxHcl!6jñydiFoMB!vol!:da"
-msj_cifrado = "cCTñScE((ÚHGfiXfúPhmqzgi:uÍCrzVtCc vHC:lJfMHovhb4xAi3VFKxfsp AGyv(YsáSWvHb¿iopÁKDxKcD5ÉnGofpJGÁP5mfA(lr ÁCrIhis¿6)o-vpHoCFnmAFs3veÍEJIRcd4pneGjCFzCrgKrz4kxeLGMñHiF!ÉñySBmvrPT?zfFh3ñuáCSñLnop6mCo:oFqTB4KICj3oá3sCxPqbñbuñLgwvzMr?DHE!gfiUsN!Z.njeCñp:(X8WP4CoJ4ñpaLEPOYkohgneKdBJAjUcxod43: Sk8mr:bB6AIIl(7JóBevAs53NiÚVPño,-35"
+alfabeto = input("Introduce el alfabeto: ").replace('"', "")
+clave = input("Introduce la clave: ").replace('"', "")
+msj_cifrado = input("Introduce el mensaje cifrado: ").replace('"', "")
 
 
 clave_extendida = extiende_clave_ciclicamente(clave, len(msj_cifrado))
@@ -66,5 +63,8 @@ vector_msj = genera_vector(msj_cifrado, alfabeto)
 vector_clave = genera_vector(clave_extendida, alfabeto)
 vector_descifrado = vector_msj - vector_clave
 
+
 msj_descifrado = genera_cadena(vector_descifrado, alfabeto)
+
+print("\nMENSAJE DESCIFRADO: \n")
 print(msj_descifrado)
