@@ -2,7 +2,16 @@ import numpy as np
 
 
 def extiende_clave_ciclicamente(clave_no_extendida, long_msj):
-    # Crea la clave extendida en base a la longitud del mensaje, ciclicamenete
+    """
+        Crea la clave extendida en base a la longitud del mensaje, cíclicamente.
+
+        Parámetros:
+        clave_no_extendida (str): La clave original que se desea extender.
+        long_msj (int): Longitud del mensaje para el cual se extenderá la clave.
+
+        Returns:
+        str: La clave extendida ciclicamente de tamaño longitud del mensaje.
+    """
 
     stop = True
     extiende_clave = ""
@@ -20,8 +29,16 @@ def extiende_clave_ciclicamente(clave_no_extendida, long_msj):
 
 
 def extiende_clave_flujo(vector_no_extendido, long_msj):
-    # Crea la clave extendida con la versión de flujo, en base a la longitud del mensaje
+    """
+        Crea la clave extendida con la versión de flujo, en base a la longitud del mensaje.
 
+        Parámetros:
+        vector_no_extendido (list): Lista de posiciones que representa la clave original que se desea extender.
+        long_msj (int): Longitud del mensaje para el cual se extenderá la clave.
+
+        Returns:
+        list: Lista que representa la clave extendida con el método de flujo.
+    """
     extiende_vector = [n for n in vector_no_extendido]
 
     for i in range(len(extiende_vector), long_msj):
