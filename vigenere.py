@@ -12,7 +12,6 @@ def extiende_clave_ciclicamente(clave_no_extendida, long_msj):
         Returns:
         str: La clave extendida ciclicamente de tamaño longitud del mensaje.
     """
-
     stop = True
     extiende_clave = ""
 
@@ -52,7 +51,16 @@ def extiende_clave_flujo(vector_no_extendido, long_msj):
 
 
 def genera_vector(cadena, alfabeto):
-    # Crea el vector númerico en base a las posiciones en el alfabeto de cada uno de los caracteres de la cadena
+    """
+        Crea el vector númerico en base a las posiciones en el alfabeto de cada uno de los caracteres de la cadena.
+
+        Parámetros:
+        cadena (str): Cadena de caracteres que se desea convertir en un vector numérico.
+        alfabeto (str): Cadena que representa el alfabeto sobre el cual se mapearán los caracteres.
+
+        Returns:
+        list: Lista que representa el vector numérico generado.
+    """
     lista = list(alfabeto)
     vector = []
 
@@ -64,7 +72,16 @@ def genera_vector(cadena, alfabeto):
 
 
 def genera_cadena(vector, alfabeto):
-    # Genera una cadena en base a las posiciones en el alfabeto de almacenadas en el vector.
+    """
+        Genera una cadena en base a las posiciones en el alfabeto almacenadas en el vector.
+
+        Parámetros:
+        vector (list): Lista que representa un vector numérico.
+        alfabeto (str): Cadena que representa el alfabeto a partir del cual se generará la cadena.
+
+        Returns:
+        str: Cadena de caracteres generada a partir del vector y el alfabeto proporcionados.
+    """
     cadena = ""
 
     for n in vector:
@@ -74,8 +91,17 @@ def genera_cadena(vector, alfabeto):
 
 
 def calculo_modular_descifrado(vector_msj, vector_clave, alfabeto):
-    # Convierte los valores de un vector al módulo correspondiente en base a la longitud del formulario
-    # @return vector modular, pero en formato array de la librería numpy. Y realiza la operación para descifrar
+    """
+        Convierte los valores de un vector al módulo correspondiente en base a la longitud del formulario.
+
+        Parámetros:
+        vector_msj (list): Lista que representa el vector del mensaje cifrado.
+        vector_clave (list): Lista que representa el vector de la clave utilizada para cifrar.
+        alfabeto (str): Cadena que representa el alfabeto utilizado.
+
+        Returns:
+        np.array: Array de numpy que representa el vector modular resultante del descifrado.
+    """
     modulo = len(alfabeto)
     array = np.array(np.array(vector_msj) - np.array(vector_clave))
     vector_modular = array % modulo
