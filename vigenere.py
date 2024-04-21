@@ -38,6 +38,7 @@ def extiende_clave_flujo(vector_no_extendido, long_msj):
         Returns:
         list: Lista que representa la clave extendida con el método de flujo.
     """
+    # Si se iguala al vector, se almacenaría dinámicamente, así son dos variables distintas
     extiende_vector = [n for n in vector_no_extendido]
 
     for i in range(len(extiende_vector), long_msj):
@@ -116,18 +117,31 @@ def calculo_modular_descifrado(vector_msj, vector_clave):
 alfabeto = input("Introduce el alfabeto: ").replace('"', "")
 clave = input("Introduce la clave: ").replace('"', "")
 msj_cifrado = input("Introduce el mensaje cifrado: ").replace('"', "")
+msj_descifrado = ""
 
-if input("Introduce el tipo de clave cifrado: ").lower() == "(k_1)":
+while True:
+    try:
+        tipo_clave = int(input("Introduce el tipo de clave cifrado: "))
 
-    clave_extendida = extiende_clave_ciclicamente(clave, len(msj_cifrado))
-    vector_descifrado = calculo_modular_descifrado(genera_vector(msj_cifrado), genera_vector(clave_extendida))
+        if tipo_clave == 1:
 
-    msj_descifrado = genera_cadena(vector_descifrado)
-else:
-    clave_extendida_vector = extiende_clave_flujo(genera_vector(clave), len(msj_cifrado))
-    vector_descifrado = calculo_modular_descifrado(genera_vector(msj_cifrado), clave_extendida_vector)
+            clave_extendida = extiende_clave_ciclicamente(clave, len(msj_cifrado))
+            vector_descifrado = calculo_modular_descifrado(genera_vector(msj_cifrado), genera_vector(clave_extendida))
 
-    msj_descifrado = genera_cadena(vector_descifrado)
+            msj_descifrado = genera_cadena(vector_descifrado)
+            break
+        elif tipo_clave == 2:
+            clave_extendida_vector = extiende_clave_flujo(genera_vector(clave), len(msj_cifrado))
+            vector_descifrado = calculo_modular_descifrado(genera_vector(msj_cifrado), clave_extendida_vector)
+
+            msj_descifrado = genera_cadena(vector_descifrado)
+            break
+        else:
+            print("ERROR. El tipo de clave debe ser '1' o '2'")
+            continue
+    except ValueError:
+        print("ERROR. Introduce un número ('1' o '2')")
+        continue
 
 print("\nMENSAJE DESCIFRADO: \n")
 print(msj_descifrado)
