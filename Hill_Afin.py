@@ -59,6 +59,24 @@ def calculo_modular(vector):
 # CONCATENAR BLOQUES
 
 # GENERAR EL MENSAJE
+def genera_cadena(vector):
+    """
+        Genera una cadena con base en las posiciones en el alfabeto almacenadas en el vector.
+
+        Parámetros:
+        vector (list): Lista que representa un vector numérico.
+        alfabeto (str): Cadena que representa el alfabeto a partir del cual se generará la cadena.
+
+        Returns:
+        str: Cadena de caracteres generada a partir del vector y el alfabeto proporcionados.
+    """
+    global alfabeto
+    cadena = ""
+
+    for n in vector:
+        cadena += alfabeto[n]
+
+    return cadena.replace("  ", "\n")
 
 
 # FLUJO PRINCIPAL DEL PROGRAMA
