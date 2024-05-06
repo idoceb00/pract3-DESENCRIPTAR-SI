@@ -37,6 +37,24 @@ def genera_bloques(vector_msj, tam_bloque):
     return bloques
 
 # MULTIPLICAR CADA BLOQUE POR LA MATRIZ INVERSA USANDO EL MÉTODO DE HILL
+def multiplica_bloques(mensaje_bloques, matriz_cifrado):
+    """
+        Realiza el producto del bloque asignado con la inversa de la matriz de cifrado.
+
+        Parámetros:
+        mensaje_bloques (Array): Array de vectores que contiene los bloques en los que se ha dividido el mensaje.
+        matriz_cifrado (Array): Matriz que sirve como clave de cifrado por la cual se multiplicara por su inversa.
+
+        Returns:
+        Array: Array con los resultados de los prouctos matriciales.
+    """
+    productos_bloques = np.array([])
+    
+    for bloque in mensaje_bloques:
+        result = np.array(bloque).dot(np.linalg.inv(matriz_cifrado))
+        productos_bloques = np.append(productos_bloques, result, axis=0)
+
+    return productos_bloques
 
 
 def calculo_modular(vector):
@@ -57,6 +75,14 @@ def calculo_modular(vector):
 
 
 # CONCATENAR BLOQUES
+def concatena_bloques(conjunto_bloques):
+    bloques_concatenados = []
+    
+    for bloque in conjunto_bloques:
+        bloques_concatenados = np.append(bloques_concatenados, bloque)
+
+    return bloques_concatenados
+
 
 # GENERAR EL MENSAJE
 def genera_cadena(vector):
