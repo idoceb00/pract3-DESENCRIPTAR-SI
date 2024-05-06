@@ -21,8 +21,17 @@ def genera_vector(cadena):
 
     return vector
 
-#Padding
+# Padding
 
+# SEPARAR EN BLOQUES EL MENSAJE
+
+# MULTIPLICAR CADA BLOQUE POR LA MATRIZ INVERSA USANDO EL MÉTODO DE HILL
+
+# CALCULO MODULAR
+
+# CONCATENAR BLOQUES
+
+# GENERAR EL MENSAJE
 
 
 # FLUJO PRINCIPAL DEL PROGRAMA
@@ -31,11 +40,6 @@ clave = input("Introduce la clave: ").replace('"', "")
 msj_cifrado = input("Introduce el mensaje cifrado: ").replace('"', "")
 msj_descifrado = ""
 
-while True:
-    try:
-        
-    except ValueError:
-        
 
 print("\nMENSAJE DESCIFRADO: \n")
 print(msj_descifrado)
