@@ -48,11 +48,11 @@ def multiplica_bloques(mensaje_bloques, matriz_cifrado):
         Returns:
         Array: Array con los resultados de los prouctos matriciales.
     """
-    productos_bloques = np.array([])
+    productos_bloques = []
     
     for bloque in mensaje_bloques:
         result = np.array(bloque).dot(np.linalg.inv(matriz_cifrado))
-        productos_bloques = np.append(productos_bloques, result, axis=0)
+        productos_bloques.append(calculo_modular(result))
 
     return productos_bloques
 
@@ -69,7 +69,10 @@ def calculo_modular(vector):
     """
     global alfabeto
     modulo = len(alfabeto)
-    vector_modular = vector % modulo
+    vector_modular = []
+
+    for n in vector:
+        vector_modular.append(int(n % modulo))
 
     return vector_modular
 
@@ -79,7 +82,7 @@ def concatena_bloques(conjunto_bloques):
     bloques_concatenados = []
     
     for bloque in conjunto_bloques:
-        bloques_concatenados = np.append(bloques_concatenados, bloque)
+        bloques_concatenados += bloque
 
     return bloques_concatenados
 
@@ -99,6 +102,7 @@ def genera_cadena(vector):
     global alfabeto
     cadena = ""
 
+    print(vector)
     for n in vector:
         cadena += alfabeto[n]
 
@@ -107,10 +111,24 @@ def genera_cadena(vector):
 
 # FLUJO PRINCIPAL DEL PROGRAMA
 alfabeto = input("Introduce el alfabeto: ").replace('"', "")
-clave = input("Introduce la clave: ").replace('"', "")
-msj_cifrado = input("Introduce el mensaje cifrado: ").replace('"', "")
-msj_descifrado = ""
+clave = [[63,    57, 3,  29, 46, 35],
+         [30,    52, 21, 80, 44, 12],
+         [37,    23, 53, 60, 16, 56],
+         [77,    11, 82, 74, 46, 53],
+         [33,    56, 81, 72, 37, 37],
+         [12,    11, 68, 55, 22, 19]]
 
+msj_cifrado = input("Introduce el mensaje cifrado: ").replace('"', "")
+
+vector_cifrado = genera_vector(msj_cifrado)
+
+bloques_cifrado = genera_bloques(vector_cifrado, 6)
+
+bloques_descifrado = multiplica_bloques(bloques_cifrado, clave)
+
+vector_descifrado = concatena_bloques(bloques_descifrado)
+
+msj_descifrado = genera_cadena(vector_descifrado)
 
 print("\nMENSAJE DESCIFRADO: \n")
 print(msj_descifrado)
