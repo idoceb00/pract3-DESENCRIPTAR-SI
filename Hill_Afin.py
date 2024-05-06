@@ -24,6 +24,24 @@ def genera_vector(cadena):
 
 
 def genera_bloques(vector_msj, tam_bloque):
+    """
+    Genera una lista de bloques a partir de un mensaje, basándose en un tamaño de bloque especificado.
+
+    Esta función divide un vector de mensaje en bloques de un tamaño dado. Recorre el vector y agrupa
+    los elementos en sub-listas (bloques) según el tamaño de bloque proporcionado. Solo se incluyen
+    en la lista de bloques aquellos que tienen la longitud exacta del tamaño de bloque especificado.
+
+    Args:
+        vector_msj (list): El mensaje original representado como una lista de elementos.
+        tam_bloque (int): El número de elementos que debe tener cada bloque.
+
+    Returns:
+        list: Una lista de bloques, donde cada bloque es una sub-lista del mensaje original.
+
+    Raises:
+        ValueError: Si 'tam_bloque' no es un entero positivo.
+        TypeError: Si 'vector_msj' no es una lista.
+    """
     bloques = []
 
     for i in range(1, len(vector_msj) + 1):
@@ -96,6 +114,22 @@ def calculo_modular(vector):
 
 
 def concatena_bloques(conjunto_bloques):
+    """
+    Concatena una lista de bloques en un solo mensaje.
+
+    Esta función toma una lista de bloques (cada bloque representado como una lista de elementos)
+    y los concatena en un solo mensaje. Luego, se llama a la función 'quitar_padding' para eliminar
+    cualquier padding que pueda estar presente en el mensaje concatenado.
+
+    Args:
+        conjunto_bloques (list): Una lista de bloques, donde cada bloque es una lista de elementos.
+
+    Returns:
+        np.array: El mensaje concatenado sin padding.
+
+    Raises:
+        TypeError: Si 'conjunto_bloques' no es una lista.
+    """
     bloques_concatenados = []
     
     for bloque in conjunto_bloques:
@@ -124,35 +158,54 @@ def genera_cadena(vector):
 
 
 def calcular_inversa():
+    """
+    Calcula la inversa modular de una matriz 'clave' utilizando el tamaño del 'alfabeto' como módulo.
+
+    La función primero intenta calcular el determinante de la matriz 'clave' y su inverso multiplicativo
+    en el módulo de la longitud del 'alfabeto'. Luego, calcula la matriz adjunta y la multiplica por el
+    inverso multiplicativo para obtener la inversa modular. Finalmente, devuelve la inversa modular redondeada.
+
+    Returns:
+        np.array: Una matriz que es la inversa modular de 'clave' si existe, de lo contrario None.
+
+    Raises:
+        np.linalg.LinAlgError: Si la matriz 'clave' no es invertible.
+    """
+
     try:
         global alfabeto
         global clave
 
-        # Calculamos la inversa de la matriz.
-        det = int(np.round(np.linalg.det(clave)))
+        inv = int(np.round(np.linalg.det(clave)))
+        inv_mult = pow(inv, -1, len(alfabeto))
 
-        # Calculamos el inverso multiplicativo del determinante en el campo de los enteros módulo el tamaño del
-        # alfabeto.
-        det_inv = pow(det, -1, len(alfabeto))
-
-        # Calculamos la matriz adjunta de la matriz.
-        adjunta = np.linalg.det(clave) * np.linalg.inv(clave).T
-
-        # Transponemosla matriz adjunta para obtenerla matriz cofactor.
-        cofactor = adjunta.T
-
-        # Multiplicar cada elemento de la matriz cofactor por el inverso multiplicativo del determinante,
-        # y tomar el módulo del tamaño del alfabeto.
-        inversa_modulo = (det_inv * cofactor) % len(alfabeto)
+        matriz_adj = (np.linalg.det(clave) * np.linalg.inv(clave).T).T
+        inversa_modulo = (inv_mult * matriz_adj) % len(alfabeto)
 
         return np.round(inversa_modulo)
 
     except np.linalg.LinAlgError:
-        # La matriz no tiene inversa
         return None
 
 
 def quitar_padding(msj_padding):
+    """
+    Elimina el padding de un mensaje cifrado basado en el tamaño del bloque de la 'clave'.
+
+    Esta función asume que el mensaje tiene un padding que se añadió durante el proceso de cifrado
+    y que el último bloque del mensaje contiene la longitud del mensaje original antes del padding.
+    La función calcula el tamaño del bloque a partir de la forma de la matriz 'clave' y utiliza
+    este tamaño para identificar y eliminar el padding del mensaje.
+
+    Args:
+        msj_padding (np.array): El mensaje cifrado con padding.
+
+    Returns:
+        np.array: El mensaje original sin padding.
+
+    Raises:
+        ValueError: Si 'msj_padding' no es del tipo o forma esperada.
+    """
     global alfabeto
     global clave
 
@@ -170,6 +223,24 @@ def quitar_padding(msj_padding):
 
 
 def calculo_modulo_decimal(vector, mod):
+    """
+    Calcula el valor decimal de un número representado en un sistema modular.
+
+    Esta función toma un vector que representa un número en un sistema de base 'mod' y lo convierte
+    a su equivalente decimal. El vector se recorre en orden inverso, multiplicando cada dígito por
+    la base elevada a la potencia correspondiente a su posición, sumando estos valores para obtener
+    el número decimal final.
+
+    Args:
+        vector (list): Una lista de enteros que representa el número en la base 'mod'.
+        mod (int): La base del sistema modular.
+
+    Returns:
+        int: El valor decimal del número representado en el sistema modular.
+
+    Raises:
+        TypeError: Si 'vector' no es una lista o 'mod' no es un entero.
+    """
     num = 0
     for i, valor in enumerate(reversed(vector)):
         num += valor * mod**i
