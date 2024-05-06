@@ -38,7 +38,23 @@ def genera_bloques(vector_msj, tam_bloque):
 
 # MULTIPLICAR CADA BLOQUE POR LA MATRIZ INVERSA USANDO EL MÉTODO DE HILL
 
-# CALCULO MODULAR
+
+def calculo_modular(vector):
+    """
+        Convierte los valores de un vector al módulo correspondiente en base a la longitud del alfabeto.
+
+        Parámetros:
+        vector(list): vector número al que aplicarle las reglas del módulo
+
+        Returns:
+        np.array: Array de numpy que representa el vector modular resultante del descifrado.
+    """
+    global alfabeto
+    modulo = len(alfabeto)
+    vector_modular = vector % modulo
+
+    return vector_modular
+
 
 # CONCATENAR BLOQUES
 
