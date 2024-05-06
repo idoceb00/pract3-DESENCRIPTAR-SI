@@ -23,19 +23,7 @@ def genera_vector(cadena):
     return vector
 
 
-def calcula_padding(bloques):
-    bloque_tam_padding = bloques.pop(-1)
-
-    tam_padding = 0
-
-    for n in bloque_tam_padding:
-        tam_padding += n
-
-    return tam_padding
-
-
 def genera_bloques(vector_msj, tam_bloque):
-    # SEPARAR EN BLOQUES EL MENSAJE
     bloques = []
 
     for i in range(1, len(vector_msj) + 1):
@@ -47,7 +35,7 @@ def genera_bloques(vector_msj, tam_bloque):
     return bloques
 
 
-def multiplica_bloques(mensaje_bloques, matriz_descifrado):
+def multiplica_bloques_hill(mensaje_bloques, matriz_descifrado):
     """
         Realiza el producto del bloque asignado con la inversa de la matriz de cifrado.
 
@@ -62,6 +50,26 @@ def multiplica_bloques(mensaje_bloques, matriz_descifrado):
 
     for bloque in mensaje_bloques:
         result = np.array(bloque).dot(matriz_descifrado)
+        productos_bloques.append(calculo_modular(result))
+
+    return productos_bloques
+
+
+def multiplica_bloques_afin(mensaje_bloques, matriz_descifrado, v):
+    """
+        Realiza el producto del bloque asignado con la inversa de la matriz de cifrado.
+
+        Parámetros:
+        mensaje_bloques (Array): Array de vectores que contiene los bloques en los que se ha dividido el mensaje.
+        matriz_cifrado (Array): Matriz que sirve como clave de cifrado por la cual se multiplicara por su inversa.
+
+        Returns:
+        Array: Array con los resultados de los prouctos matriciales.
+    """
+    productos_bloques = []
+
+    for bloque in mensaje_bloques:
+        result = np.array(bloque).dot(matriz_descifrado) - np.dot(v, matriz_descifrado)
         productos_bloques.append(calculo_modular(result))
 
     return productos_bloques
@@ -87,7 +95,6 @@ def calculo_modular(vector):
     return vector_modular
 
 
-# CONCATENAR BLOQUES
 def concatena_bloques(conjunto_bloques):
     bloques_concatenados = []
     
@@ -97,7 +104,6 @@ def concatena_bloques(conjunto_bloques):
     return quitar_padding(bloques_concatenados)
 
 
-# GENERAR EL MENSAJE
 def genera_cadena(vector):
     """
         Genera una cadena con base en las posiciones en el alfabeto almacenadas en el vector.
@@ -146,53 +152,75 @@ def calcular_inversa():
         return None
 
 
-def quitar_padding(msj_con_padding):
+def quitar_padding(msj_padding):
     global alfabeto
     global clave
 
     tam_bloque = np.shape(clave)[0]
-    # Obtenemos el último bloque del mensaje con padding.
-    ultimo_bloque = msj_con_padding[-tam_bloque:]
-    print(ultimo_bloque)
-    # Calculamos la longitud del mensaje original.
-    lon_msj_final = base_modulo_a_10(ultimo_bloque, len(alfabeto))
-    # Los elementos a eliminar son el último bloque y los elementos de padding.
-    elems_a_quitar = len(msj_con_padding) - lon_msj_final
-    elems_a_quitar = int(elems_a_quitar)
-    msj_final = msj_con_padding[:-elems_a_quitar]
 
-    return msj_final
+    # Obtiene el último bloque del mensaje
+    ultimo_bloque = msj_padding[-tam_bloque:]
+
+    lon_msj_final = calculo_modulo_decimal(ultimo_bloque, len(alfabeto))
+
+    # Elimina el padding
+    msj_limpio = msj_padding[0:lon_msj_final]
+
+    return msj_limpio
 
 
-def base_modulo_a_10(num_array, mod):
-    num_10 = 0
-    for i, num in enumerate(reversed(num_array)):
-        num_10 += num * mod**i
-    return num_10
+def calculo_modulo_decimal(vector, mod):
+    num = 0
+    for i, valor in enumerate(reversed(vector)):
+        num += valor * mod**i
+    return num
 
 
 # FLUJO PRINCIPAL DEL PROGRAMA
 alfabeto = "aábcdeéfghiíjklmnñoópqrstuúvwxyzAÁBCDEÉFGHIÍJKLMNÑOÓPQRSTUÚVWXYZ0123456789 ,.:;-()¿?"
-clave = np.array([[63,    57, 3,  29, 46, 35],
-        [30,    52, 21, 80, 44, 12],
-        [37,    23, 53, 60, 16, 56],
-        [77,    11, 82, 74, 46, 53],
-        [33,    56, 81, 72, 37, 37],
-        [12,    11, 68, 55, 22, 19]])
+tipo_algoritmo = input("Afín?: ")
 
-msj_cifrado = input("Introduce el mensaje cifrado: ").replace('"', "")
+if tipo_algoritmo == "si":
+    clave = np.array([
+        [50,    25, 0,  81, 4],
+        [10,    39, 19, 67, 51],
+        [34,    49, 63, 9,  56],
+        [31,    21, 33, 55, 6],
+        [82,    69, 34, 48, 1]])
 
-vector_cifrado = genera_vector(msj_cifrado)
+    v = np.array([24,    11,  34, 70, 78])
+    msj_cifrado = input("Introduce el mensaje cifrado: ").replace('"', "")
 
-bloques_cifrado = genera_bloques(vector_cifrado, 6)
+    vector_cifrado = genera_vector(msj_cifrado)
 
-matriz_inversa = calcular_inversa()
+    bloques_cifrado = genera_bloques(vector_cifrado, 5)
 
-bloques_descifrado = multiplica_bloques(bloques_cifrado, matriz_inversa)
+    matriz_inversa = calcular_inversa()
+    bloques_descifrado = multiplica_bloques_afin(bloques_cifrado, matriz_inversa,v)
+    vector_descifrado = concatena_bloques(bloques_descifrado)
 
-vector_descifrado = concatena_bloques(bloques_descifrado)
+    msj_descifrado = genera_cadena(vector_descifrado)
+else:
+    clave = np.array([[63,    57, 3,  29, 46, 35],
+            [30,    52, 21, 80, 44, 12],
+            [37,    23, 53, 60, 16, 56],
+            [77,    11, 82, 74, 46, 53],
+            [33,    56, 81, 72, 37, 37],
+            [12,    11, 68, 55, 22, 19]])
 
-msj_descifrado = genera_cadena(vector_descifrado)
+    msj_cifrado = input("Introduce el mensaje cifrado: ").replace('"', "")
+
+    vector_cifrado = genera_vector(msj_cifrado)
+
+    bloques_cifrado = genera_bloques(vector_cifrado, 6)
+
+    matriz_inversa = calcular_inversa()
+
+    bloques_descifrado = multiplica_bloques_hill(bloques_cifrado, matriz_inversa)
+
+    vector_descifrado = concatena_bloques(bloques_descifrado)
+
+    msj_descifrado = genera_cadena(vector_descifrado)
 
 print("\nMENSAJE DESCIFRADO: \n")
 print(msj_descifrado)
