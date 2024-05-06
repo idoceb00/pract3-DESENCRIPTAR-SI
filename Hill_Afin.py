@@ -23,7 +23,18 @@ def genera_vector(cadena):
 
 # Padding
 
-# SEPARAR EN BLOQUES EL MENSAJE
+
+def genera_bloques(vector_msj, tam_bloque):
+    # SEPARAR EN BLOQUES EL MENSAJE
+    bloques = []
+
+    for i in range(1, len(vector_msj) + 1):
+        if i % tam_bloque == 0:
+            bloques.append(vector_msj[(i-tam_bloque): i])
+        else:
+            continue
+
+    return bloques
 
 # MULTIPLICAR CADA BLOQUE POR LA MATRIZ INVERSA USANDO EL MÉTODO DE HILL
 
