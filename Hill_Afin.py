@@ -135,7 +135,7 @@ def concatena_bloques(conjunto_bloques):
     for bloque in conjunto_bloques:
         bloques_concatenados += bloque
 
-    return quitar_padding(bloques_concatenados)
+    return elimina_padding(bloques_concatenados)
 
 
 def genera_cadena(vector):
@@ -188,7 +188,7 @@ def calcular_inversa():
         return None
 
 
-def quitar_padding(msj_padding):
+def elimina_padding(msj_padding):
     """
     Elimina el padding de un mensaje cifrado basado en el tamaño del bloque de la 'clave'.
 
