@@ -248,23 +248,22 @@ def calculo_modulo_decimal(vector, mod):
 
 
 # FLUJO PRINCIPAL DEL PROGRAMA
-alfabeto = "aábcdeéfghiíjklmnñoópqrstuúvwxyzAÁBCDEÉFGHIÍJKLMNÑOÓPQRSTUÚVWXYZ0123456789 ,.:;-()¿?"
+alfabeto = "-()TUÚVWXYZAÁBCDEÉFGHIÍJKLMNÑOÓPópqrstuvwxyzaábcdeéfghiíjklmnñoQRS ,.:;"
 tipo_algoritmo = input("Afín?: ")
 
 if tipo_algoritmo == "si":
     clave = np.array([
-        [50,    25, 0,  81, 4],
-        [10,    39, 19, 67, 51],
-        [34,    49, 63, 9,  56],
-        [31,    21, 33, 55, 6],
-        [82,    69, 34, 48, 1]])
+        [63,57, 3,  29 ],
+        [30,52, 21, 30 ],
+        [37,23, 53, 60 ],
+        [67,11, 22, 69 ]])
 
-    v = np.array([24,    11,  34, 70, 78])
+    v = np.array([24,11, 1, 34 ])
     msj_cifrado = input("Introduce el mensaje cifrado: ").replace('"', "")
 
     vector_cifrado = genera_vector(msj_cifrado)
 
-    bloques_cifrado = genera_bloques(vector_cifrado, 5)
+    bloques_cifrado = genera_bloques(vector_cifrado, 4)
 
     matriz_inversa = calcular_inversa()
     bloques_descifrado = multiplica_bloques_afin(bloques_cifrado, matriz_inversa,v)
